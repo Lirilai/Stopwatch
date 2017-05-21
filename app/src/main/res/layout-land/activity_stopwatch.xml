@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lirilai.stopwatch.StopwatchActivity"
+    android:background="@color/background">
+
+   <FrameLayout
+       android:id="@+id/frame_layout"
+       android:layout_width="wrap_content"
+       android:layout_height="match_parent">
+
+   <Chronometer
+       android:id="@+id/chronometer"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_margin="@dimen/text_stopwatch_margins"
+
+       android:layout_gravity="center"
+
+       style="@style/text_stopwatch"
+
+
+       />
+
+   <ProgressBar
+       android:id="@+id/progressBar"
+       style="?android:attr/progressBarStyleLargeInverse"
+       android:layout_width="370dp"
+       android:layout_height="match_parent"
+       android:layout_gravity="center"
+
+       />
+
+
+
+   </FrameLayout>
+
+   <SeekBar
+       android:id="@+id/seekBar"
+       style="?android:attr/seekBarStyle"
+       android:layout_width="match_parent"
+       android:layout_height="@dimen/seekbar_height"
+       android:layout_gravity="right"
+       android:layout_toRightOf="@id/frame_layout"
+
+       android:thumb="@drawable/seekbar_thumb"
+
+
+       android:layout_margin="@dimen/end_buttons_margins"
+       android:background="@color/background"
+
+       android:progressTint="@color/stopwatch" />
+   <TextView
+       android:id="@+id/seekbar_text"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+
+       android:layout_marginLeft="150dp"
+
+       android:layout_toRightOf="@id/frame_layout"
+       android:layout_below="@id/seekBar"
+
+       android:textColor="@color/stopwatch"
+       android:textSize="@dimen/seek_bar_text"
+       />
+
+
+</RelativeLayout>
