@@ -1,34 +1,38 @@
 package com.lirilai.stopwatch;
 
-import android.app.Activity;
 import android.media.MediaPlayer;
 import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Chronometer;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class StopwatchActivity extends Activity {
 
-    private Chronometer mChronometer;
-    private ProgressBar mProgressBar;
-    private SeekBar mSeekBar;
+
+public class StopwatchActivity extends AppCompatActivity{
+
+    private Chronometer chronometer;
+    private ProgressBar progressBar;
+    private SeekBar seekBar;
     private TextView seekBarText;
+    private TextView circleCounter;
 
     private boolean stopChronometer = true;
 
     private Integer seekBarProgress = 1000;
     private long pauseChronometer;
 
-    private MediaPlayer mp;
+    private int counterForCircles = 0;
+
+    private MediaPlayer mediaPlayer;
+
+    final static String LOG_TAG = "foo";
 
 
     @Override
@@ -44,41 +48,45 @@ public class StopwatchActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_stopwatch);
 
+        Log.e(LOG_TAG, "onCreate");
 
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-        mProgressBar.setVisibility(View.INVISIBLE);
-
-        mSeekBar = (SeekBar) findViewById(R.id.seekBar);
-        mSeekBar.setMax(120);
-
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBarText = (TextView) findViewById(R.id.seekbar_text);
+        chronometer = (Chronometer) findViewById(R.id.chronometer);
+        circleCounter = (TextView) findViewById(R.id.circle_counter);
 
-        mChronometer = (Chronometer) findViewById(R.id.chronometer);
+        seekBar.setMax(120);
+        progressBar.setVisibility(View.INVISIBLE);
 
 
-        mChronometer.setOnLongClickListener(new View.OnLongClickListener() {
+        chronometer.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                mChronometer.setBase(SystemClock.elapsedRealtime());
-                mChronometer.start();
 
-                mProgressBar.setVisibility(View.VISIBLE);return true;
+                chronometer.setBase(SystemClock.elapsedRealtime());
+                counterForCircles ++;
+                circleCounter.setText(String.valueOf(counterForCircles));
+                chronometer.start();
+                progressBar.setVisibility(View.VISIBLE);
+                stopChronometer = false;
+                return true;
             }
         });
 
-        mChronometer.setOnClickListener(new View.OnClickListener() {
+        chronometer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!stopChronometer) {
-                    mChronometer.stop();
+                    chronometer.stop();
                     pauseChronometer = SystemClock.elapsedRealtime()
-                            - mChronometer.getBase();
-                    mProgressBar.setVisibility(View.INVISIBLE);
+                            - chronometer.getBase();
+                    progressBar.setVisibility(View.INVISIBLE);
                     stopChronometer = true;
                 } else {
-                    mProgressBar.setVisibility(View.VISIBLE);
-                    mChronometer.setBase(SystemClock.elapsedRealtime() - pauseChronometer);
-                    mChronometer.start();
+                    progressBar.setVisibility(View.VISIBLE);
+                    chronometer.setBase(SystemClock.elapsedRealtime() - pauseChronometer);
+                    chronometer.start();
                     stopChronometer = false;
 
                 }
@@ -86,21 +94,21 @@ public class StopwatchActivity extends Activity {
             }
         });
 
-        mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
 
                 long elapsedMillis = SystemClock.elapsedRealtime()
-                            - mChronometer.getBase();
+                        - chronometer.getBase();
 
                 if (seekBarProgress*1000 < elapsedMillis && elapsedMillis < seekBarProgress*1000 + 1000) {
-                        mp = MediaPlayer.create(StopwatchActivity.this, R.raw.gong_music);
-                        mp.start();
+                    mediaPlayer = MediaPlayer.create(StopwatchActivity.this, R.raw.gong_music);
+                    mediaPlayer.start();
                 }
             }
         });
 
-        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
@@ -109,7 +117,7 @@ public class StopwatchActivity extends Activity {
                 seekBar.setProgress(progress);
 
                 if(fromUser) {
-                seekBarText.setText(String.valueOf(progress));}
+                    seekBarText.setText(String.valueOf(progress));}
             }
 
             @Override
@@ -120,15 +128,27 @@ public class StopwatchActivity extends Activity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                seekBarProgress = mSeekBar.getProgress();
+                seekBarProgress = seekBar.getProgress();
 
             }
         });
 
 
-
     }
-    private boolean isEmpty(EditText etText) {
-        return etText.getText().toString().trim().length() == 0;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        chronometer.stop();
+        pauseChronometer = SystemClock.elapsedRealtime()
+                - chronometer.getBase();
+        progressBar.setVisibility(View.INVISIBLE);
+        stopChronometer = true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e(LOG_TAG, "onDestroy");
     }
 }

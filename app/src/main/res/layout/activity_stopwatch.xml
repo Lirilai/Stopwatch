@@ -1,57 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lirilai.stopwatch.StopwatchActivity"
     android:background="@color/background">
 
-   <Chronometer
-       android:id="@+id/chronometer"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_margin="@dimen/text_stopwatch_margins"
+  <TextView
+      android:id="@+id/circle_counter"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
 
-       android:layout_gravity="center"
+      android:textColor="@color/stopwatch"
+      android:textSize="@dimen/seek_bar_text"
 
-       style="@style/text_stopwatch"
+      android:padding="@dimen/paddings_circle_counter"
+
+      />
 
 
-       />
+  <Chronometer
+      android:id="@+id/chronometer"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/text_stopwatch_margins"
 
-   <ProgressBar
-       android:id="@+id/progressBar"
-       style="?android:attr/progressBarStyleLargeInverse"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:layout_gravity="center"
+      android:layout_gravity="center"
 
-       />
+      style="@style/text_stopwatch"
 
-   <TextView
-       android:id="@+id/seekbar_text"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="@dimen/seek_bar_text_margin"
-       android:layout_gravity="center"
+      />
 
-       android:textColor="@color/stopwatch"
-       android:textSize="@dimen/seek_bar_text"
-       />
+  <ProgressBar
+      android:id="@+id/progressBar"
+      style="?android:attr/progressBarStyleLargeInverse"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_gravity="center"
 
-   <SeekBar
-       android:id="@+id/seekBar"
-       style="?android:attr/seekBarStyle"
-       android:layout_width="match_parent"
-       android:layout_height="@dimen/seekbar_height"
-       android:layout_gravity="bottom"
-       android:thumb="@drawable/seekbar_thumb"
+      />
 
-       android:layout_margin="@dimen/end_buttons_margins"
-       android:background="@color/background"
+  <TextView
+      android:id="@+id/seekbar_text"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/seek_bar_text_margin"
+      android:layout_gravity="center"
 
-       android:progressTint="@color/stopwatch" />
+      android:textColor="@color/stopwatch"
+      android:textSize="@dimen/seek_bar_text"
+      />
 
+  <SeekBar
+      android:id="@+id/seekBar"
+      style="?android:attr/seekBarStyle"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/seekbar_height"
+      android:layout_gravity="bottom"
+      android:thumb="@drawable/seekbar_thumb"
+
+      android:layout_margin="@dimen/end_buttons_margins"
+      android:background="@color/background"
+
+      android:progressTint="@color/stopwatch" />
 
 </FrameLayout>
