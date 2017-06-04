@@ -13,6 +13,7 @@
       android:textSize="@dimen/seek_bar_text"
 
       android:padding="@dimen/paddings_circle_counter"
+      android:clickable="true"
 
       />
 

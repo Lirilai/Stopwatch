@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Stopwatch</string>
+    <string name="add_button">add</string>
+    <string name="edit_exercise_name">Edit exercise name</string>
+    <string name="edit_time_for_gong">Edit time for gong</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

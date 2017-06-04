@@ -8,4 +8,6 @@
     <color name="background">#0f1525</color>
     <color name="background2">#1cf0eada</color>
     <color name="stopwatch">#f0eada</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

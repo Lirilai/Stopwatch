@@ -1,5 +1,6 @@
 package com.lirilai.stopwatch;
 
+
 import android.media.MediaPlayer;
 import android.os.SystemClock;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ import android.widget.TextView;
 
 
 
-public class StopwatchActivity extends AppCompatActivity{
+public class StopwatchActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Chronometer chronometer;
     private ProgressBar progressBar;
@@ -28,6 +29,8 @@ public class StopwatchActivity extends AppCompatActivity{
     private Integer seekBarProgress = 1000;
     private long pauseChronometer;
 
+    private long restoreChronometer;
+
     private int counterForCircles = 0;
 
     private MediaPlayer mediaPlayer;
@@ -38,17 +41,30 @@ public class StopwatchActivity extends AppCompatActivity{
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putInt("counterChronometer", counterForCircles);
+        outState.putLong("restoreChronometer", chronometer.getBase());
+        outState.putInt("seekBarProgress", seekBarProgress);
+        Log.e(LOG_TAG, "onCreate");
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_stopwatch);
 
         Log.e(LOG_TAG, "onCreate");
+
+        if (savedInstanceState != null) {
+            counterForCircles = savedInstanceState.getInt("counterChronometer");
+            restoreChronometer = savedInstanceState.getLong("restoreChronometer");
+            seekBarProgress = savedInstanceState.getInt("seekBarProgress");
+//            restoreChronometer = SystemClock.elapsedRealtime() - restoreChronometer;
+        }
+
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
@@ -59,12 +75,33 @@ public class StopwatchActivity extends AppCompatActivity{
         seekBar.setMax(120);
         progressBar.setVisibility(View.INVISIBLE);
 
+        circleCounter.setOnClickListener(this);
+        chronometer.setOnClickListener(this);
+
+        if (restoreChronometer == 0) {
+            chronometer.setBase(SystemClock.elapsedRealtime());
+            circleCounter.setText(String.valueOf(counterForCircles));
+        } else {
+            chronometer.setBase(restoreChronometer);
+            progressBar.setVisibility(View.VISIBLE);
+            circleCounter.setText(String.valueOf(counterForCircles));
+//            seekBarText.setText(String.valueOf(seekBarProgress));
+            chronometer.start();
+            restoreChronometer = 0;
+        }
+
 
         chronometer.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
 
-                chronometer.setBase(SystemClock.elapsedRealtime());
+                if (restoreChronometer == 0) {
+                    chronometer.setBase(SystemClock.elapsedRealtime());
+                } else {
+                    chronometer.setBase(restoreChronometer);
+                    chronometer.start();
+                    restoreChronometer = 0;
+                }
                 counterForCircles ++;
                 circleCounter.setText(String.valueOf(counterForCircles));
                 chronometer.start();
@@ -74,25 +111,7 @@ public class StopwatchActivity extends AppCompatActivity{
             }
         });
 
-        chronometer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!stopChronometer) {
-                    chronometer.stop();
-                    pauseChronometer = SystemClock.elapsedRealtime()
-                            - chronometer.getBase();
-                    progressBar.setVisibility(View.INVISIBLE);
-                    stopChronometer = true;
-                } else {
-                    progressBar.setVisibility(View.VISIBLE);
-                    chronometer.setBase(SystemClock.elapsedRealtime() - pauseChronometer);
-                    chronometer.start();
-                    stopChronometer = false;
 
-                }
-
-            }
-        });
 
         chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
@@ -146,9 +165,29 @@ public class StopwatchActivity extends AppCompatActivity{
         stopChronometer = true;
     }
 
+
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.e(LOG_TAG, "onDestroy");
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.circle_counter:
+                counterForCircles = 0;
+                circleCounter.setText(String.valueOf(counterForCircles));
+                break;
+            case R.id.chronometer:
+                if (!stopChronometer) {
+                    chronometer.stop();
+                    pauseChronometer = SystemClock.elapsedRealtime()
+                            - chronometer.getBase();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    stopChronometer = true;
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    chronometer.setBase(SystemClock.elapsedRealtime() - pauseChronometer);
+                    chronometer.start();
+                    stopChronometer = false;
+
+                } break;
+        }
     }
 }

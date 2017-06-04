@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lirilai.stopwatch.AddExerciseActivity"
+    android:background="@color/background"
+    >
+
+    <EditText
+        android:id="@+id/edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="@dimen/text_stopwatch_margins"
+
+        android:theme="@style/Theme.App.Base"
+
+        android:textColor="@color/stopwatch"
+
+        android:hint="@string/edit_exercise_name"
+        />
+
+    <EditText
+        android:id="@+id/edit_gong_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_name"
+
+        android:layout_margin="@dimen/text_stopwatch_margins"
+        android:inputType="number"
+
+        android:theme="@style/Theme.App.Base"
+
+        android:textColor="@color/stopwatch"
+
+        android:hint="@string/edit_time_for_gong"
+
+
+
+        />
+
+    <Button
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+
+        android:text="@string/add_button"
+        android:textColor="@color/background"
+
+        android:background="@drawable/button_background"
+
+
+        />
+
+</RelativeLayout>
