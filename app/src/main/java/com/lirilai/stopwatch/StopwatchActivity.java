@@ -75,17 +75,19 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
         seekBar.setMax(120);
         progressBar.setVisibility(View.INVISIBLE);
 
+
         circleCounter.setOnClickListener(this);
         chronometer.setOnClickListener(this);
 
         if (restoreChronometer == 0) {
             chronometer.setBase(SystemClock.elapsedRealtime());
             circleCounter.setText(String.valueOf(counterForCircles));
+            seekBarText.setText("0");
         } else {
             chronometer.setBase(restoreChronometer);
             progressBar.setVisibility(View.VISIBLE);
             circleCounter.setText(String.valueOf(counterForCircles));
-//            seekBarText.setText(String.valueOf(seekBarProgress));
+            seekBarText.setText(String.valueOf(seekBarProgress));
             chronometer.start();
             restoreChronometer = 0;
         }
