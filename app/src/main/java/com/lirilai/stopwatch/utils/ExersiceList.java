@@ -18,7 +18,6 @@ public class ExersiceList {
 
     public ExersiceList(List<String> exerciseList) {
         this.exersiceList = exerciseList;
-        initList();
     }
 
     private void initList() {
