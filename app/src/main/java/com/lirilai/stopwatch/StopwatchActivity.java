@@ -1,37 +1,38 @@
 package com.lirilai.stopwatch;
 
 
+import android.content.Intent;
 import android.media.MediaPlayer;
-import android.os.SystemClock;
+import android.os.Handler;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Chronometer;
-import android.widget.ProgressBar;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.dgmltn.multiseekbar.ArcSeekBar;
+import com.dgmltn.multiseekbar.internal.AbsMultiSeekBar;
 
 
 public class StopwatchActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private Chronometer chronometer;
-    private ProgressBar progressBar;
-    private SeekBar seekBar;
-    private TextView seekBarText;
-    private TextView circleCounter;
+    private ArcSeekBar seekBar;
+    private TextView timeView;
+    private Button startStopButton;
 
-    private boolean stopChronometer = true;
 
     private Integer seekBarProgress = 1000;
-    private long pauseChronometer;
 
-    private long restoreChronometer;
-
-    private int counterForCircles = 0;
+    private int seconds = 0;
+    private boolean running;
+    private boolean wasRunning;
 
     private MediaPlayer mediaPlayer;
 
@@ -41,8 +42,9 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("counterChronometer", counterForCircles);
-        outState.putLong("restoreChronometer", chronometer.getBase());
+        outState.putInt("seconds", seconds);
+        outState.putBoolean("running", running);
+        outState.putBoolean("wasRunning", wasRunning);
         outState.putInt("seekBarProgress", seekBarProgress);
         Log.e(LOG_TAG, "onCreate");
     }
@@ -51,120 +53,65 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_stopwatch);
+
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        getSupportActionBar().setTitle("");
 
         Log.e(LOG_TAG, "onCreate");
 
         if (savedInstanceState != null) {
-            counterForCircles = savedInstanceState.getInt("counterChronometer");
-            restoreChronometer = savedInstanceState.getLong("restoreChronometer");
             seekBarProgress = savedInstanceState.getInt("seekBarProgress");
-//            restoreChronometer = SystemClock.elapsedRealtime() - restoreChronometer;
+            seconds = savedInstanceState.getInt("seconds");
+            running = savedInstanceState.getBoolean("running");
+            wasRunning = savedInstanceState.getBoolean("wasRunning");
+            if (wasRunning) {
+                running = true;
+            }
+
         }
 
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        seekBar = (SeekBar) findViewById(R.id.seekBar);
-        seekBarText = (TextView) findViewById(R.id.seekbar_text);
-        chronometer = (Chronometer) findViewById(R.id.chronometer);
-        circleCounter = (TextView) findViewById(R.id.circle_counter);
+        timeView = (TextView) findViewById(R.id.chronometer);
 
+        startStopButton = (Button) findViewById(R.id.button1);
+        startStopButton.setText("Start");
+        startStopButton.setOnClickListener(this);
+
+
+        seekBar = (ArcSeekBar) findViewById(R.id.seekBar);
         seekBar.setMax(120);
-        progressBar.setVisibility(View.INVISIBLE);
 
-
-        circleCounter.setOnClickListener(this);
-        chronometer.setOnClickListener(this);
-
-        if (restoreChronometer == 0) {
-            chronometer.setBase(SystemClock.elapsedRealtime());
-            circleCounter.setText(String.valueOf(counterForCircles));
-            seekBarText.setText("0");
-        } else {
-            chronometer.setBase(restoreChronometer);
-            progressBar.setVisibility(View.VISIBLE);
-            circleCounter.setText(String.valueOf(counterForCircles));
-            seekBarText.setText(String.valueOf(seekBarProgress));
-            chronometer.start();
-            restoreChronometer = 0;
-        }
-
-
-        chronometer.setOnLongClickListener(new View.OnLongClickListener() {
+        seekBar.setOnSliderChangeListener(new AbsMultiSeekBar.OnSliderChangeListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onStartTrackingTouch(AbsMultiSeekBar slider) {
 
-                if (restoreChronometer == 0) {
-                    chronometer.setBase(SystemClock.elapsedRealtime());
-                } else {
-                    chronometer.setBase(restoreChronometer);
-                    chronometer.start();
-                    restoreChronometer = 0;
-                }
-                counterForCircles ++;
-                circleCounter.setText(String.valueOf(counterForCircles));
-                chronometer.start();
-                progressBar.setVisibility(View.VISIBLE);
-                stopChronometer = false;
-                return true;
+            }
+
+            @Override
+            public void onStopTrackingTouch(AbsMultiSeekBar slider) {
+
+
+
+            }
+        });
+
+        seekBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
             }
         });
 
 
 
-        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
-
-                long elapsedMillis = SystemClock.elapsedRealtime()
-                        - chronometer.getBase();
-
-                if (seekBarProgress*1000 < elapsedMillis && elapsedMillis < seekBarProgress*1000 + 1000) {
-                    mediaPlayer = MediaPlayer.create(StopwatchActivity.this, R.raw.gong_music);
-                    mediaPlayer.start();
-                }
-            }
-        });
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                int stepSize = 5;
-                progress = (Math.round(progress/stepSize))*stepSize;
-                seekBar.setProgress(progress);
-
-                if(fromUser) {
-                    seekBarText.setText(String.valueOf(progress));}
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                seekBarText.setVisibility(View.VISIBLE);
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                seekBarProgress = seekBar.getProgress();
-
-            }
-        });
-
-
+        runTime();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        chronometer.stop();
-        pauseChronometer = SystemClock.elapsedRealtime()
-                - chronometer.getBase();
-        progressBar.setVisibility(View.INVISIBLE);
-        stopChronometer = true;
+
     }
 
 
@@ -172,24 +119,71 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.circle_counter:
-                counterForCircles = 0;
-                circleCounter.setText(String.valueOf(counterForCircles));
-                break;
-            case R.id.chronometer:
-                if (!stopChronometer) {
-                    chronometer.stop();
-                    pauseChronometer = SystemClock.elapsedRealtime()
-                            - chronometer.getBase();
-                    progressBar.setVisibility(View.INVISIBLE);
-                    stopChronometer = true;
+
+            case R.id.button1:
+                if (running) {
+                    onClickStop();
+
                 } else {
-                    progressBar.setVisibility(View.VISIBLE);
-                    chronometer.setBase(SystemClock.elapsedRealtime() - pauseChronometer);
-                    chronometer.start();
-                    stopChronometer = false;
+                    onClickStart();
 
                 } break;
         }
+    }
+
+    public void runTime () {
+
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                int hours = seconds / 3600;
+                int minutes = (seconds % 3600) / 60;
+                int secs = seconds % 60;
+                String time = String.format("%d:%02d:%02d",
+                        hours, minutes, secs);
+                timeView.setText(time);
+                if (running) {
+                    timeView.setTextColor(ContextCompat.getColor(timeView.getContext(), R.color.colorAccent));
+                    seconds++;
+                }
+                handler.postDelayed(this, 1000);
+            }
+        });
+    }
+
+    public void onClickStart() {
+        startStopButton.setText("Stop");
+        running = true;
+    }
+    public void onClickStop() {
+        startStopButton.setText("Start");
+        running = false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+
+        switch (item.getItemId()) {
+
+            case R.id.add_exercise_item:
+
+                intent = new Intent(this, AddExerciseActivity.class);
+                startActivity(intent);
+
+            case R.id.choose_exercise_item:
+                intent = new Intent(this, ChooseExerciseActivity.class);
+                startActivity(intent);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

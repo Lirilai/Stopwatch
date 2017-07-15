@@ -4,8 +4,11 @@
     <string name="edit_exercise_name">Edit exercise name</string>
     <string name="edit_time_for_gong">Edit time for gong</string>
 
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="add_exercise_tab_item">Add Exercise</string>
+    <string name="choose_exercise_tab_item">Choose Exercise</string>
+    <string name="chronometer_tab_item">Chronometer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

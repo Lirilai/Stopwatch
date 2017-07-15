@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#0f1525</color>
+    <color name="colorPrimary">#795548</color>
+    <color name="colorPrimaryDark">#5D4037</color>
+    <color name="colorAccent">#009688</color>
+
+    <color name="colorControlActivated">#009688</color>
+
+
+    <color name="thumb_color">#c7009688</color>
+    <color name="track_color">#7d795548</color>
+    <color name="pin_text_color">#bae4e0</color>
+
 
 
     <color name="background">#0f1525</color>
     <color name="background2">#1cf0eada</color>
-    <color name="stopwatch">#f0eada</color>
+    <color name="stopwatch">#c0000000</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>

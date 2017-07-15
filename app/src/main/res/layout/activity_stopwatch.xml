@@ -1,66 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-  <TextView
-      android:id="@+id/circle_counter"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-
-      android:textColor="@color/stopwatch"
-      android:textSize="@dimen/seek_bar_text"
-
-      android:padding="@dimen/paddings_circle_counter"
-      android:clickable="true"
-
-      />
-
-
-  <Chronometer
-      android:id="@+id/chronometer"
+  <android.support.design.widget.AppBarLayout
+      android:id="@+id/app_bar_layout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_margin="@dimen/text_stopwatch_margins"
 
-      android:layout_gravity="center"
+      >
 
-      style="@style/text_stopwatch"
 
-      />
+      <android.support.v7.widget.Toolbar
+          android:id="@+id/toolbar"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          >
 
-  <ProgressBar
-      android:id="@+id/progressBar"
-      style="?android:attr/progressBarStyleLargeInverse"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_gravity="center"
+      </android.support.v7.widget.Toolbar>
 
-      />
+  </android.support.design.widget.AppBarLayout>
 
-  <TextView
-      android:id="@+id/seekbar_text"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/seek_bar_text_margin"
-      android:layout_gravity="center"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        
 
-      android:textColor="@color/stopwatch"
-      android:textSize="@dimen/seek_bar_text"
-      />
+        <com.dgmltn.multiseekbar.ArcSeekBar
 
-  <SeekBar
-      android:id="@+id/seekBar"
-      style="?android:attr/seekBarStyle"
-      android:layout_width="match_parent"
-      android:layout_height="@dimen/seekbar_height"
-      android:layout_gravity="bottom"
-      android:thumb="@drawable/seekbar_thumb"
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-      android:layout_margin="@dimen/end_buttons_margins"
-      android:background="@color/background"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
 
-      android:progressTint="@color/stopwatch" />
+            android:padding="@dimen/end_buttons_margins"
+            android:layout_marginLeft="@dimen/end_buttons_margins"
+            android:layout_marginRight="@dimen/end_buttons_margins"
 
-</FrameLayout>
+            app:trackColor="@color/track_color"
+
+            app:hasTicks="true"
+            app:tickColor="@color/colorAccent"
+
+            app:style="discrete"
+
+            app:thumb_textColor="@color/pin_text_color"
+            app:thumb_style="pin"
+
+            app:thumb_color="@color/thumb_color"
+
+
+            />
+
+
+
+        <TextView
+            android:id="@+id/chronometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+
+            android:textAppearance="@style/text_stopwatch"
+
+
+            tools:text="0:00:00" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:layout_below="@id/chronometer"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"/>
+
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

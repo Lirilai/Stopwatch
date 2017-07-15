@@ -2,16 +2,13 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
     <size
-        android:height="30dp"
-        android:width="30dp"/>
+        android:height="50dp"
+        android:width="50dp"/>
 
 
 
-    <gradient
-        android:gradientRadius="5dp"
-        android:startColor="@color/stopwatch"
-        android:endColor="@color/stopwatch"
-        android:type="radial"/>
+   <solid
+       android:color="@color/thumb_color"/>
 
 
 

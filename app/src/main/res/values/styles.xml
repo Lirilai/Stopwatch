@@ -5,32 +5,40 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/stopwatch</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:buttonStyle">@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored.StartButton</item>
+
+
     </style>
 
     <style name="text_stopwatch">
         <item name="android:textSize">@dimen/text_stopwatch_size</item>
-        <item name="android:textColor">@color/stopwatch</item>
         <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/stopwatch</item>
+
     </style>
 
-    <style name="Theme.App.Base" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorControlNormal">@color/stopwatch</item>
-        <item name="colorControlActivated">@color/stopwatch</item>
-        <item name="colorControlHighlight">@color/stopwatch</item>
-        <item name="android:textColorHint">@color/stopwatch</item>
+    <style name="Theme.App.Base" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="android:actionMenuTextAppearance">@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Menu.MyMenu</item>
+        <item name="android:popupMenuStyle">@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Menu.MyMenu</item>
+
+    </style>
+    
+    <style name="Base.TextAppearance.AppCompat.Widget.ActionBar.Menu.MyMenu">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:background">@color/stopwatch</item>
     </style>
 
-    <style name="FullscreenTheme" parent="AppTheme">
-        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:windowBackground">@null</item>
-        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
-        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+
+    <style name="Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored.StartButton">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">28sp</item>
     </style>
 
-    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
-    </style>
+
+    
+
 
 </resources>
