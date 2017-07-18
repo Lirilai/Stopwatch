@@ -1,83 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
-  <FrameLayout
-      android:id="@+id/frame_layout"
-      android:layout_width="wrap_content"
-      android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <Chronometer
-        android:id="@+id/chronometer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_stopwatch_margins"
-
-        android:layout_gravity="center"
-
-        style="@style/text_stopwatch"
-
-
-        />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleLargeInverse"
-        android:layout_width="370dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-
-        />
-
-
-
-  </FrameLayout>
-
-  <SeekBar
-      android:id="@+id/seekBar"
-      style="?android:attr/seekBarStyle"
+  <android.support.design.widget.AppBarLayout
+      android:id="@+id/app_bar_layout"
       android:layout_width="match_parent"
-      android:layout_height="@dimen/seekbar_height"
-      android:layout_gravity="right"
-      android:layout_toRightOf="@id/frame_layout"
-
-      android:thumb="@drawable/seekbar_thumb"
-
-
-      android:layout_margin="@dimen/end_buttons_margins"
-      android:background="@color/background"
-
-      android:progressTint="@color/stopwatch" />
-  <TextView
-      android:id="@+id/seekbar_text"
-      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
 
-      android:layout_marginLeft="150dp"
+      >
 
-      android:layout_toRightOf="@id/frame_layout"
-      android:layout_below="@id/seekBar"
 
-      android:textColor="@color/stopwatch"
-      android:textSize="@dimen/seek_bar_text"
-      />
-  <TextView
-      android:id="@+id/circle_counter"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      <android.support.v7.widget.Toolbar
+          android:id="@+id/toolbar"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          >
 
-      android:layout_toRightOf="@id/frame_layout"
-      android:layout_below="@id/seekbar_text"
-      android:layout_marginLeft="150dp"
+      </android.support.v7.widget.Toolbar>
 
-      android:clickable="true"
+  </android.support.design.widget.AppBarLayout>
 
-      android:textColor="@color/stopwatch"
-      android:textSize="@dimen/seek_bar_text"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-      android:padding="@dimen/paddings_circle_counter"
 
-      />
+        <com.sdsmdg.harjot.crollerTest.Croller
+            android:id="@+id/croller"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            app:back_circle_color="#EDEDED"
+            app:is_continuous="false"
+            app:max="120"
+            app:progress_primary_color="@color/colorAccent"
+            app:progress_secondary_color="@color/track_color"
+            app:start_offset="45"
 
-</RelativeLayout>
+            app:indicator_color="@color/background"
+            app:indicator_width="0"
+
+            app:main_circle_color="@color/background"
+            />
+
+        <TextView
+            android:id="@+id/progressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/timeView"
+
+            tools:text="Start"
+
+            />
+
+
+
+        <TextView
+            android:id="@+id/timeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+
+            android:textAppearance="@style/text_stopwatch"
+
+
+            tools:text="0:00:00" />
+
+        <Button
+            android:id="@+id/start_stop_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/timeView"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+
+            tools:text="Start"/>
+
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

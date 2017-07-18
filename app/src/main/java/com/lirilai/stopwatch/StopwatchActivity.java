@@ -11,25 +11,22 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.dgmltn.multiseekbar.ArcSeekBar;
-import com.dgmltn.multiseekbar.internal.AbsMultiSeekBar;
+import com.sdsmdg.harjot.crollerTest.Croller;
 
 
 public class StopwatchActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private ArcSeekBar seekBar;
+    private Croller seekBar;
+    private TextView progressText;
     private TextView timeView;
     private Button startStopButton;
+    private Button resetButton;
 
-
-    private Integer seekBarProgress = 1000;
-
+    private int seekBarProgress = 0;
     private int seconds = 0;
     private boolean running;
     private boolean wasRunning;
@@ -45,7 +42,7 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
         outState.putInt("seconds", seconds);
         outState.putBoolean("running", running);
         outState.putBoolean("wasRunning", wasRunning);
-        outState.putInt("seekBarProgress", seekBarProgress);
+//        outState.putInt("seekBarProgress", seekBarProgress);
         Log.e(LOG_TAG, "onCreate");
     }
 
@@ -61,7 +58,7 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
         Log.e(LOG_TAG, "onCreate");
 
         if (savedInstanceState != null) {
-            seekBarProgress = savedInstanceState.getInt("seekBarProgress");
+//            seekBarProgress = savedInstanceState.getInt("seekBarProgress");
             seconds = savedInstanceState.getInt("seconds");
             running = savedInstanceState.getBoolean("running");
             wasRunning = savedInstanceState.getBoolean("wasRunning");
@@ -72,37 +69,35 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
         }
 
 
-        timeView = (TextView) findViewById(R.id.chronometer);
+        timeView = (TextView) findViewById(R.id.timeView);
 
-        startStopButton = (Button) findViewById(R.id.button1);
+        progressText = (TextView) findViewById(R.id.progressText);
+        progressText.setText("Choose gong time");
+
+        startStopButton = (Button) findViewById(R.id.start_stop_button);
         startStopButton.setText("Start");
         startStopButton.setOnClickListener(this);
 
+        resetButton = (Button) findViewById(R.id.refresh_button);
+        resetButton.setEnabled(false);
+        resetButton.setText("Reset");
+        resetButton.setOnClickListener(this);
 
-        seekBar = (ArcSeekBar) findViewById(R.id.seekBar);
+
+        seekBar = (Croller)findViewById(R.id.croller);
         seekBar.setMax(120);
 
-        seekBar.setOnSliderChangeListener(new AbsMultiSeekBar.OnSliderChangeListener() {
-            @Override
-            public void onStartTrackingTouch(AbsMultiSeekBar slider) {
+       seekBar.setOnProgressChangedListener(new Croller.onProgressChangedListener() {
+           @Override
+           public void onProgressChanged(int progress) {
 
-            }
+               int stepSize = 5;
+               progress = (Math.round(progress/stepSize))*stepSize;
+               seekBarProgress = progress;
+               progressText.setText(String.valueOf(progress) + " sec");
 
-            @Override
-            public void onStopTrackingTouch(AbsMultiSeekBar slider) {
-
-
-
-            }
-        });
-
-        seekBar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
-
+           }
+       });
 
 
         runTime();
@@ -120,7 +115,7 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
 
         switch (v.getId()) {
 
-            case R.id.button1:
+            case R.id.start_stop_button:
                 if (running) {
                     onClickStop();
 
@@ -128,6 +123,11 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
                     onClickStart();
 
                 } break;
+
+            case R.id.refresh_button:
+                onClickReset();
+                break;
+
         }
     }
 
@@ -144,8 +144,12 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
                         hours, minutes, secs);
                 timeView.setText(time);
                 if (running) {
-                    timeView.setTextColor(ContextCompat.getColor(timeView.getContext(), R.color.colorAccent));
                     seconds++;
+
+                    if (seekBar.getProgress() > 5 && seconds == seekBarProgress) {
+                        mediaPlayer = MediaPlayer.create(StopwatchActivity.this, R.raw.gong_music);
+                        mediaPlayer.start();
+                    }
                 }
                 handler.postDelayed(this, 1000);
             }
@@ -153,12 +157,22 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void onClickStart() {
-        startStopButton.setText("Stop");
         running = true;
+        startStopButton.setText("Stop");
+        timeView.setTextColor(ContextCompat.getColor(timeView.getContext(), R.color.colorAccent));
     }
     public void onClickStop() {
-        startStopButton.setText("Start");
         running = false;
+        startStopButton.setText("Start");
+        timeView.setTextColor(ContextCompat.getColor(timeView.getContext(), R.color.stopwatch));
+        resetButton.setEnabled(true);
+
+    }
+
+    public void onClickReset() {
+        seconds = 0;
+        resetButton.setEnabled(false);
+
     }
 
     @Override

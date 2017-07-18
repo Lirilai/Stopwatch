@@ -28,40 +28,30 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        
 
-        <com.dgmltn.multiseekbar.ArcSeekBar
 
-            android:id="@+id/seekBar"
+        <com.sdsmdg.harjot.crollerTest.Croller
+            android:id="@+id/croller"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            app:back_circle_color="#EDEDED"
+            app:is_continuous="false"
 
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            app:progress_primary_color="@color/colorAccent"
+            app:progress_secondary_color="@color/track_color"
+            app:start_offset="45"
 
-            android:padding="@dimen/end_buttons_margins"
-            android:layout_marginLeft="@dimen/end_buttons_margins"
-            android:layout_marginRight="@dimen/end_buttons_margins"
+            app:indicator_color="@color/background"
+            app:indicator_width="0"
 
-            app:trackColor="@color/track_color"
-
-            app:hasTicks="true"
-            app:tickColor="@color/colorAccent"
-
-            app:style="discrete"
-
-            app:thumb_textColor="@color/pin_text_color"
-            app:thumb_style="pin"
-
-            app:thumb_color="@color/thumb_color"
-
-
+            app:main_circle_color="@color/background"
             />
 
 
 
         <TextView
-            android:id="@+id/chronometer"
+            android:id="@+id/timeView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
@@ -75,15 +65,54 @@
 
             tools:text="0:00:00" />
 
-        <Button
-            android:id="@+id/button1"
+        <TextView
+            android:id="@+id/progressText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-
-            android:layout_below="@id/chronometer"
             android:layout_centerHorizontal="true"
-            android:gravity="center"/>
+            android:layout_above="@id/timeView"
+
+            tools:text="Start"
+
+            />
+
+
+        <TextView
+            android:id="@+id/center_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/timeView"
+            android:layout_marginLeft="@dimen/end_buttons_margins"
+            android:layout_marginRight="@dimen/end_buttons_margins"
+
+            />
+
+        <Button
+            android:id="@+id/start_stop_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/timeView"
+            android:layout_toLeftOf="@id/center_space"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+
+            tools:text="Start"/>
+
+        <Button
+            android:id="@+id/refresh_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:gravity="center"
+            android:layout_below="@id/timeView"
+            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@id/center_space"
+
+            tools:text="Reset"
+            />
 
 
     </RelativeLayout>
