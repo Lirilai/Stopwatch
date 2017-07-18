@@ -42,9 +42,10 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("seconds", seconds);
+        outState.putInt("seekBarProgress", seekBarProgress);
+        outState.putInt("circleCounter", circleCounter);
         outState.putBoolean("running", running);
         outState.putBoolean("wasRunning", wasRunning);
-//        outState.putInt("seekBarProgress", seekBarProgress);
         Log.e(LOG_TAG, "onCreate");
     }
 
@@ -60,8 +61,9 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
         Log.e(LOG_TAG, "onCreate");
 
         if (savedInstanceState != null) {
-//            seekBarProgress = savedInstanceState.getInt("seekBarProgress");
+            seekBarProgress = savedInstanceState.getInt("seekBarProgress");
             seconds = savedInstanceState.getInt("seconds");
+            circleCounter = savedInstanceState.getInt("circleCounter");
             running = savedInstanceState.getBoolean("running");
             wasRunning = savedInstanceState.getBoolean("wasRunning");
             if (wasRunning) {
@@ -74,10 +76,9 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
         timeView = (TextView) findViewById(R.id.timeView);
 
         circleText = (TextView) findViewById(R.id.circle_counter);
-        circleText.setText(String.valueOf(circleCounter));
+        circleText.setText(String.valueOf(circleCounter) + " circle");
 
         progressText = (TextView) findViewById(R.id.progressText);
-        progressText.setText("Choose gong time");
 
         startStopButton = (Button) findViewById(R.id.start_stop_button);
         startStopButton.setText("Start");
@@ -145,8 +146,7 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
                 int hours = seconds / 3600;
                 int minutes = (seconds % 3600) / 60;
                 int secs = seconds % 60;
-                String time = String.format("%d:%02d:%02d",
-                        hours, minutes, secs);
+                String time = String.format("%d:%02d:%02d", hours, minutes, secs);
                 timeView.setText(time);
                 if (running) {
                     seconds++;
@@ -178,7 +178,7 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
         seconds = 0;
         resetButton.setEnabled(false);
         circleCounter++;
-        circleText.setText(String.valueOf(circleCounter));
+        circleText.setText(String.valueOf(circleCounter) + " circles");
 
     }
 
