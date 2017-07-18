@@ -23,9 +23,11 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
     private Croller seekBar;
     private TextView progressText;
     private TextView timeView;
+    private TextView circleText;
     private Button startStopButton;
     private Button resetButton;
 
+    private int circleCounter = 0;
     private int seekBarProgress = 0;
     private int seconds = 0;
     private boolean running;
@@ -70,6 +72,9 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
 
 
         timeView = (TextView) findViewById(R.id.timeView);
+
+        circleText = (TextView) findViewById(R.id.circle_counter);
+        circleText.setText(String.valueOf(circleCounter));
 
         progressText = (TextView) findViewById(R.id.progressText);
         progressText.setText("Choose gong time");
@@ -172,6 +177,8 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
     public void onClickReset() {
         seconds = 0;
         resetButton.setEnabled(false);
+        circleCounter++;
+        circleText.setText(String.valueOf(circleCounter));
 
     }
 
