@@ -164,6 +164,7 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
     public void onClickStart() {
         running = true;
         startStopButton.setText("Stop");
+        resetButton.setEnabled(false);
         timeView.setTextColor(ContextCompat.getColor(timeView.getContext(), R.color.colorAccent));
     }
     public void onClickStop() {
