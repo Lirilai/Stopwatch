@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
     <item android:title="@string/add_exercise_tab_item"
-        android:id="@+id/add_exercise_item"/>
+        android:id="@+id/add_exercise_item" />
     <item android:title="@string/choose_exercise_tab_item"
         android:id="@+id/choose_exercise_item"/>
 </menu>

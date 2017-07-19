@@ -9,6 +9,10 @@
 
         <item name="android:buttonStyle">@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored.StartButton</item>
 
+        <!--<item name="android:popupMenuStyle">@style/PopUpMenu</item>-->
+
+
+
 
     </style>
 
@@ -20,15 +24,13 @@
     </style>
 
     <style name="Theme.App.Base" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="colorControlNormal">@color/colorAccent</item>
-        <item name="android:actionMenuTextAppearance">@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Menu.MyMenu</item>
-        <item name="android:popupMenuStyle">@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Menu.MyMenu</item>
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+
 
     </style>
     
     <style name="Base.TextAppearance.AppCompat.Widget.ActionBar.Menu.MyMenu">
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:background">@color/stopwatch</item>
     </style>
 
 
@@ -38,6 +40,18 @@
 
     </style>
 
+
+    <style name="PopUpMenu" parent="Base.Widget.AppCompat.PopupMenu">
+        <item name="android:itemBackground">@color/menu_background</item>
+    </style>
+
+    <style name="MainMenu" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColorSecondary">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
+        <item name="android:itemBackground">@color/menu_background</item>
+
+
+    </style>
 
     
 

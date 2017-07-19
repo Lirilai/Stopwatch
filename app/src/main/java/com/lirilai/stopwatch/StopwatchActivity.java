@@ -164,20 +164,18 @@ public class StopwatchActivity extends AppCompatActivity implements View.OnClick
     public void onClickStart() {
         running = true;
         startStopButton.setText("Stop");
-        resetButton.setEnabled(false);
+        resetButton.setEnabled(true);
         timeView.setTextColor(ContextCompat.getColor(timeView.getContext(), R.color.colorAccent));
     }
     public void onClickStop() {
         running = false;
         startStopButton.setText("Start");
         timeView.setTextColor(ContextCompat.getColor(timeView.getContext(), R.color.stopwatch));
-        resetButton.setEnabled(true);
 
     }
 
     public void onClickReset() {
         seconds = 0;
-        resetButton.setEnabled(false);
         circleCounter++;
         circleText.setText(String.valueOf(circleCounter) + " circles");
 

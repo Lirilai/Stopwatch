@@ -7,7 +7,7 @@
 
     <color name="thumb_color">#c7009688</color>
     <color name="track_color">#7d795548</color>
-    <color name="pin_text_color">#bae4e0</color>
+    <color name="menu_background">#ffffff</color>
     <color name="disenabled_button_text">#bd5d4037</color>
 
 
